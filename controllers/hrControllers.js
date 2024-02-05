@@ -11,19 +11,19 @@ const ApiResponse=require('../utils/ApiResponse')
 
 
 
-exports.createEmployerLogin= async (req,res)=>{
+
+exports.createHrLogin= async (req,res)=>{
     try{
 
-        console.log("this is body")
         console.log(req.body)
-
         const schema=Joi.object({
-            employerId:Joi.string().trim().regex(/^EM/).required(),
+            HrId:Joi.string().trim().regex(/^HR/).required(),
             firstName: Joi.string().trim().required(),
             lastName: Joi.string().trim().required(),
             mobileNumber: Joi.string().trim().required(),
             alternateMobileNumber: Joi.string().trim().allow(''), 
-            username: Joi.string().trim().required(),       
+            username: Joi.string().trim().required(),
+       
             workEmail: Joi.string().trim().required(),
             role: Joi.string().required(),
             password: Joi.string().min(8)
@@ -43,14 +43,14 @@ exports.createEmployerLogin= async (req,res)=>{
 
         // data.password=en_p;
 
-        const existingEmployer = await employerModel.existUser(data.username);
-        if(existingEmployer)
+        const existingHr = await hrModel.existUser(data.username);
+        if(existingHr)
         {
             return ApiResponse.entityAlreadyExists(res, 'Username already exists');
         }
 
-        const employerData={
-            employerId:data.employerId,
+        const hrData={
+            HrId:data.HrId,
             firstName:data.firstName,
             lastName:data.lastName,
             mobileNumber:data.mobileNumber,
@@ -63,22 +63,23 @@ exports.createEmployerLogin= async (req,res)=>{
             status:'active',
             isDeleted:0
         }
-        console.log("the file is :  ",req.file)
+
+        console.log("this is the file",req.file)
+        console.log(process.env.S3BucketName)
         if(req.file)
         {
             console.log("hello")
             const fileName = req.file.key; // The key is the file name on S3
             const fileUrl = req.file.location; // The location is the URL to access the file on S3
         
-            employerData.profileImageUrl=fileUrl;
-            employerData.profileImageName=fileName;
+            hrData.profileImageUrl=fileUrl;
+            hrData.profileImageName=fileName;
         }
         
 
 
-        const savedData= await employerModel.saveEmployer(employerData);
+        const savedData= await hrModel.saveHr(hrData);
        
-
         return ApiResponse.saveResponse(res,savedData);
 
     }
@@ -89,4 +90,3 @@ exports.createEmployerLogin= async (req,res)=>{
         return ApiResponse.serverIssueResponse(res, error);
     }
 }
-

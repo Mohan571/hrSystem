@@ -41,17 +41,86 @@ exports.saveCandidate=async function(data){
   
   
   
-  exports.getProfile=async function(where_cls){
-    try{
-      const result=await this.findOne(where_cls)  
+
+exports.getAllCandidates=async function(){
+  try{
       
-      return result;
-      
-    }
-    catch(error)
-    {
-      console.log(error);
-      await logModel.Insert({ where_cls, stack: error.stack }, error);
-      throw new Error(Messages.UnableToGetEntity);
-    }
+  
+        
+    const result=await this.find()
+
+    return result;
+
   }
+  catch(error)
+  {
+    console.log(error);
+    await logModel.Insert({ data, stack: error.stack }, error);
+    throw new Error(Messages.UnableToGetEntity);
+  }
+
+
+}
+
+exports.getCandidateById=async function(where_cls){
+  try{
+            
+    const result=await this.findOne(where_cls)
+
+    return result;
+
+  }
+  catch(error)
+  {
+    console.log(error);
+    await logModel.Insert({ data, stack: error.stack }, error);
+    throw new Error(Messages.UnableToGetEntityById);
+  }
+
+
+}
+
+
+
+exports.updateCandidate = async function (candidateId, updateData) {
+  try {
+      const result = await this.findByIdAndUpdate(
+          candidateId,
+          updateData,
+          { new: true, runValidators: true }
+      );
+
+      if (!result) {
+          throw new Error(Messages.EntityNotAvailable);
+      }
+
+      return result;
+  } catch (error) {
+      console.error(error);
+      await logModel.Insert({ data: { jobPostId, updateData }, stack: error.stack }, error);
+      throw new Error(Messages.UnableToUpdateEntity);
+  }
+};
+
+
+
+exports.deleteCandidate = async function (candidateId) {
+  try {
+      const result = await this.findByIdAndUpdate(
+          candidateId,
+          {isDeleted:1},
+          { new: true, runValidators: true }
+      );
+
+      if (!result) {
+          throw new Error(Messages.EntityNotAvailable);
+      }
+
+      return result;
+  } catch (error) {
+      console.error(error);
+      await logModel.Insert({ data: { jobPostId, updateData }, stack: error.stack }, error);
+      throw new Error(Messages.UnableToDeleteEntity);
+  }
+};
+

@@ -9,7 +9,7 @@ exports.saveCandidate= async (req,res)=>{
         console.log("this is the body")
         console.log(req.body)
         const schema=Joi.object({
-            candidateId:Joi.string().trim().regex(/^C/).required(),
+            // candidateId:Joi.string().trim().regex(/^C/).required(),
             firstName: Joi.string().trim().required(),
             // lastName: Joi.string().trim().required(),
             mobileNumber: Joi.string().trim().required(),
@@ -35,7 +35,7 @@ exports.saveCandidate= async (req,res)=>{
 
 
         const candidateData={
-            candidateId:data.candidateId,
+            // candidateId:data.candidateId,
            fullName:data.firstName+data.lastName,
             mobileNumber:data.mobileNumber,
             dob:data.dob,
@@ -75,15 +75,10 @@ exports.saveCandidate= async (req,res)=>{
                   candidateData.resume={resumeName:newFile.name,resumeUrl:newFile.url}
                 } else if (file[0].fieldname == 'cv') {
                   candidateData.CV={CVName:newFile.name,CVUrl:newFile.url}
-                //   candidateData.CV.CVUrl = newFile.url;
                 
               }
             }
           }
-          
-
-      
-
 
 
         const savedData= await candidateModel.saveCandidate(candidateData);
@@ -99,3 +94,107 @@ exports.saveCandidate= async (req,res)=>{
         return ApiResponse.serverIssueResponse(res, error);
     }
 }
+
+
+
+ 
+
+exports.getAllCandidates=async (req,res)=>{
+    try{
+
+        const candidates= await candidateModel.getAllCandidates();
+       
+
+        return ApiResponse.sendDataResponse(res,candidates);
+
+    }
+    catch(error)
+    {
+        console.log(error)
+        await logModel.Insert({ data: req.body, stack: error.stack }, error);
+        return ApiResponse.serverIssueResponse(res, error);
+    }
+}
+
+
+
+
+exports.getCandidateById=async (req,res)=>{
+    try{
+
+       
+        const candidateId=req.params.candidateId
+
+        const where_cls={candidateId:candidateId}
+
+        const post= await candidateModel.getCandidateById(where_cls);
+       
+        
+
+        return ApiResponse.sendDataResponse(res,post);
+
+    }
+    catch(error)
+    {
+        console.log(error)
+        await logModel.Insert({ data: req.body, stack: error.stack }, error);
+        return ApiResponse.serverIssueResponse(res, error);
+    }
+}
+
+
+
+
+exports.updateCandidate=async (req,res)=>{
+    try{
+
+       
+        const updatedData=req.body;
+
+        const candidateId=req.params.candidateId
+
+
+        const post= await candidateModel.updateCandidate(candidateId,updatedData);
+       
+        
+
+        return ApiResponse.updateResponse(res,post);
+
+    }
+    catch(error)
+    {
+        console.log(error)
+        await logModel.Insert({ data: req.body, stack: error.stack }, error);
+        return ApiResponse.serverIssueResponse(res, error);
+    }
+}
+
+
+
+
+exports.deleteCandidate=async (req,res)=>{
+    try{
+
+       
+        const candidateId=req.params.candidateId
+
+        const candidate= await candidateModel.deleteCandidate(candidateId);
+
+        return ApiResponse.deleteResponse(res,candidate);
+
+    }
+    catch(error)
+    {
+        console.log(error)
+        await logModel.Insert({ data: req.body, stack: error.stack }, error);
+        return ApiResponse.serverIssueResponse(res, error);
+    }
+}
+
+
+
+
+
+
+
+

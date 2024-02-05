@@ -15,18 +15,7 @@ const Hr_Login_Type=process.env.Hr_Login_Type
 const Employer_Login_Type=process.env.Employer_Login_Type
 
 
-router.post('/saveManagement',upload.single('image'),managementController.createManagementLogin)
-
-
-
-
-
-
-
-
-
-
-
+router.post('/createEmployerLogin',common.validateToken,upload.single('image'),loginTypeMiddleware(Manager_Login_Type),employerControllers.createEmployerLogin)
 
 
 module.exports=router;

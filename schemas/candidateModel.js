@@ -4,11 +4,6 @@ const candidateServices=require('../services/candidateServices')
 
 
 const candidateSchema = new mongoose.Schema({
-    candidateId:{
-        type:String,
-        unique:true,
-        required:true
-    },
 
     fullName: {
             type: String, 
@@ -64,6 +59,7 @@ const candidateSchema = new mongoose.Schema({
     currentCTC: { type: String },
     expectedCTC: { type: String },
     noticePeriod: { type: String },
+    isDeleted:{type:Number}
     
 });
 
@@ -76,7 +72,16 @@ candidateSchema.statics.saveCandidate=candidateServices.saveCandidate
 candidateSchema.statics.existUser=candidateServices.existUser  
   
 candidateSchema.statics.getProfile=candidateServices.getProfile
-  
+
+candidateSchema.statics.getAllCandidates=candidateServices.getAllCandidates
+
+candidateSchema.statics.getCandidateById=candidateServices.getCandidateById
+
+candidateSchema.statics.deleteCandidate=candidateServices.deleteCandidate
+
+candidateSchema.statics.updateSchema=candidateServices.updateCandidate
+
+
 
 
 

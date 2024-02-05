@@ -11,7 +11,9 @@ mongoConnection.connectToDatabase()
 const ManagementRoutes=require('./routes/managementRoutes')
 const authRoutes=require('./routes/authRoutes')
 const jobPostingRoutes=require('./routes/jobPostingRoutes')
-
+const hrRoutes=require('./routes/hrRoutes')
+const employerRoutes=require('./routes/employerRoutes')
+const candidateRoutes=require('./routes/candidateRoutes')
 
 
 app.use(express.json());
@@ -20,9 +22,12 @@ app.use(express.urlencoded({extended:false}))
 
 
 
-app.use(authRoutes)
-app.use(ManagementRoutes)
-app.use(jobPostingRoutes)
+app.use('/api/auth',authRoutes)
+app.use('/api',ManagementRoutes)
+app.use('/api',jobPostingRoutes)
+app.use('/api',employerRoutes)
+app.use('/api',candidateRoutes)
+app.use('/api',hrRoutes)
 
 
 
