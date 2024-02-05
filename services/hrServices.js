@@ -1,12 +1,12 @@
 const logModel=require('../schemas/logModel')
 
 const Messages=require('../utils/messages')
-
+const hrModel=require('../schemas/hrModel')
 
 exports.saveHr=async function(data){
     try{
         
-      const newHr=new this(data)
+      const newHr=new hrModel(data)
           
       const result=await newHr.save()
   
@@ -16,14 +16,14 @@ exports.saveHr=async function(data){
     catch(error)
     {
       console.log(error);
-      await logModel.Insert({ data, stack: error.stack }, error);
+      await logServices.Insert({ data, stack: error.stack }, error);
       throw new Error(Messages.UnableToSaveEntity);
     }
   }
   
   exports.existUser=async function(username){
     try{
-      const result=await this.findOne({username:username})  
+      const result=await hrModel.findOne({username:username})  
       if(result)
       {
         return true;
@@ -34,7 +34,7 @@ exports.saveHr=async function(data){
     catch(error)
     {
       console.log(error);
-      await logModel.Insert({ data, stack: error.stack }, error);
+      await logServices.Insert({ data, stack: error.stack }, error);
       throw new Error(Messages.UnableToGetEntity);
     }
   }
@@ -43,7 +43,7 @@ exports.saveHr=async function(data){
   
   exports.getProfile=async function(where_cls){
     try{
-      const result=await this.findOne(where_cls)  
+      const result=await hrModel.findOne(where_cls)  
       console.log(result)
       return result;
       
@@ -51,7 +51,7 @@ exports.saveHr=async function(data){
     catch(error)
     {
       console.log(error);
-      await logModel.Insert({ where_cls, stack: error.stack }, error);
+      await logServices.Insert({ where_cls, stack: error.stack }, error);
       throw new Error(Messages.UnableToGetEntity);
     }
   }

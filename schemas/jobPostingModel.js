@@ -49,19 +49,19 @@ const jobPostingSchema = new mongoose.Schema({
 
 
 
-jobPostingSchema.statics.saveJobPost=jobPostingServices.saveJobPost
+// jobPostingSchema.statics.saveJobPost=jobPostingServices.saveJobPost
 
 
-jobPostingSchema.statics.getAllJobPostings=jobPostingServices.getAllJobPostings
+// jobPostingSchema.statics.getAllJobPostings=jobPostingServices.getAllJobPostings
 
 
-jobPostingSchema.statics.getJobPostById=jobPostingServices.getJobPostById
+// jobPostingSchema.statics.getJobPostById=jobPostingServices.getJobPostById
 
 
-jobPostingSchema.statics.updateJobPost =jobPostingServices.saveJobPost
+// jobPostingSchema.statics.updateJobPost =jobPostingServices.saveJobPost
 
 
-jobPostingSchema.statics.deleteJobPost = jobPostingServices.deleteJobPost
+// jobPostingSchema.statics.deleteJobPost = jobPostingServices.deleteJobPost
 
 
 

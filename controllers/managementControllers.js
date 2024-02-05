@@ -1,12 +1,11 @@
-const managementModel=require('../schemas/managementModel')
+const managementServices=require('../services/managementServices')
 const Joi=require('joi');
-const logModel=require('../schemas/logModel');
-// const hrModel=require('../schemas/hrModel')
-// const employerModel=require('../schemas/employerModel')
-// const hrModel=require('../schemas/HR')
+const logServices=require('../services/logServices');
+
 
 const common=require("../helpers/common")
-const ApiResponse=require('../utils/ApiResponse')
+const ApiResponse=require('../utils/ApiResponse');
+const { LexModelBuildingService } = require('aws-sdk');
 
 exports.createManagementLogin= async (req,res)=>{
     try{
@@ -38,7 +37,7 @@ exports.createManagementLogin= async (req,res)=>{
 
         // data.password=en_p;
 
-        const existingManagement = await managementModel.existUser(data.username);
+        const existingManagement = await managementServices.existUser(data.username);
         if(existingManagement)
         {
             
@@ -74,7 +73,7 @@ exports.createManagementLogin= async (req,res)=>{
         
 
 
-        const savedData= await managementModel.saveManagement(managementData);
+        const savedData= await managementServices.saveManagement(managementData);
        
 
         return ApiResponse.saveResponse(res,savedData);
@@ -83,7 +82,7 @@ exports.createManagementLogin= async (req,res)=>{
     catch(error)
     {
         console.log(error)
-        await logModel.Insert({ data: req.body, stack: error.stack }, error);
+        await logServices.Insert({ data: req.body, stack: error.stack }, error);
         return ApiResponse.serverIssueResponse(res, error);
     }
 }

@@ -36,11 +36,17 @@ const candidateSchema = new mongoose.Schema({
         technologyUsed: { type: String },
         role: { type: String },
         responsibilities: { type:String },
-        url:{type:String}
+        url:[{type:String}]
     }
     ],
 
-    currentLocation: {
+    currentCity: {
+        type: String 
+    },
+    currentState: {
+        type: String 
+    },
+    currentCountry: {
         type: String 
     },
 
@@ -55,7 +61,7 @@ const candidateSchema = new mongoose.Schema({
         CVName:{type:String},
         CVUrl:{type:String}
     },
-    
+    currency:{type:String},
     currentCTC: { type: String },
     expectedCTC: { type: String },
     noticePeriod: { type: String },
@@ -67,19 +73,19 @@ const candidateSchema = new mongoose.Schema({
 
 
 
-candidateSchema.statics.saveCandidate=candidateServices.saveCandidate
+// candidateSchema.statics.saveCandidate=candidateServices.saveCandidate
   
-candidateSchema.statics.existUser=candidateServices.existUser  
+// candidateSchema.statics.existUser=candidateServices.existUser  
   
-candidateSchema.statics.getProfile=candidateServices.getProfile
+// candidateSchema.statics.getProfile=candidateServices.getProfile
 
-candidateSchema.statics.getAllCandidates=candidateServices.getAllCandidates
+// candidateSchema.statics.getAllCandidates=candidateServices.getAllCandidates
 
-candidateSchema.statics.getCandidateById=candidateServices.getCandidateById
+// candidateSchema.statics.getCandidateById=candidateServices.getCandidateById
 
-candidateSchema.statics.deleteCandidate=candidateServices.deleteCandidate
+// candidateSchema.statics.deleteCandidate=candidateServices.deleteCandidate
 
-candidateSchema.statics.updateSchema=candidateServices.updateCandidate
+// candidateSchema.statics.updateSchema=candidateServices.updateCandidate
 
 
 

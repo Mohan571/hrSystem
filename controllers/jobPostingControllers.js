@@ -1,8 +1,16 @@
-// const candidateModel=require('../schemas/candidateModel')
-const jobPostingModel=require('../schemas/jobPostingModel')
+
 const Joi=require('joi')
-const logModel=require('../schemas/logModel')
+
 const ApiResponse=require('../utils/ApiResponse')
+
+const hrServices=require('../services/hrServices')
+const employerServices=require('../services/employerServices')
+const logServices=require('../services/logServices')
+const managementServices=require('../services/managementServices')
+const candidateServices=require('../services/candidateServices')
+const jobPostingServices=require('../services/jobPostServices')
+
+
 
 exports.saveJobPosting=async (req,res)=>{
     try{
@@ -38,7 +46,7 @@ exports.saveJobPosting=async (req,res)=>{
            isDeleted:0
         }
 
-        const savedData= await jobPostingModel.saveJobPost(jobPost);
+        const savedData= await jobPostingServices.saveJobPost(jobPost);
        
 
         return ApiResponse.saveResponse(res,savedData);
@@ -47,7 +55,7 @@ exports.saveJobPosting=async (req,res)=>{
     catch(error)
     {
         console.log(error)
-        await logModel.Insert({ data: req.body, stack: error.stack }, error);
+        await logServices.Insert({ data: req.body, stack: error.stack }, error);
         return ApiResponse.serverIssueResponse(res, error);
     }
 }
@@ -59,7 +67,7 @@ exports.getAllJobPostings=async (req,res)=>{
 
        
 
-        const jobPosts= await jobPostingModel.getAllJobPostings();
+        const jobPosts= await jobPostingServices.getAllJobPostings();
        
 
         return ApiResponse.sendDataResponse(res,jobPosts);
@@ -68,7 +76,7 @@ exports.getAllJobPostings=async (req,res)=>{
     catch(error)
     {
         console.log(error)
-        await logModel.Insert({ data: req.body, stack: error.stack }, error);
+        await logServices.Insert({ data: req.body, stack: error.stack }, error);
         return ApiResponse.serverIssueResponse(res, error);
     }
 }
@@ -83,7 +91,7 @@ exports.getJobPostById=async (req,res)=>{
 
         const where_cls={jobPostingId:jobId}
 
-        const post= await jobPostingModel.getJobPostById(where_cls);
+        const post= await jobPostingServices.getJobPostById(where_cls);
        
         
 
@@ -93,7 +101,7 @@ exports.getJobPostById=async (req,res)=>{
     catch(error)
     {
         console.log(error)
-        await logModel.Insert({ data: req.body, stack: error.stack }, error);
+        await logServices.Insert({ data: req.body, stack: error.stack }, error);
         return ApiResponse.serverIssueResponse(res, error);
     }
 }
@@ -110,7 +118,7 @@ exports.updateJobPost=async (req,res)=>{
         const jobId=req.body.jobPostId
 
 
-        const post= await jobPostingModel.updateJobPost(jobId,updatedData);
+        const post= await jobPostingServices.updateJobPost(jobId,updatedData);
        
         
 
@@ -120,7 +128,7 @@ exports.updateJobPost=async (req,res)=>{
     catch(error)
     {
         console.log(error)
-        await logModel.Insert({ data: req.body, stack: error.stack }, error);
+        await logServices.Insert({ data: req.body, stack: error.stack }, error);
         return ApiResponse.serverIssueResponse(res, error);
     }
 }
@@ -134,7 +142,7 @@ exports.deleteJobPost=async (req,res)=>{
        
         const jobId=req.params.jobPostId
 
-        const post= await jobPostingModel.deleteJobPost(jobId);
+        const post= await jobPostingServices.deleteJobPost(jobId);
 
         return ApiResponse.deleteResponse(res,post);
 
@@ -142,7 +150,7 @@ exports.deleteJobPost=async (req,res)=>{
     catch(error)
     {
         console.log(error)
-        await logModel.Insert({ data: req.body, stack: error.stack }, error);
+        await logServices.Insert({ data: req.body, stack: error.stack }, error);
         return ApiResponse.serverIssueResponse(res, error);
     }
 }

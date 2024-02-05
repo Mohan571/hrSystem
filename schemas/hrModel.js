@@ -66,13 +66,13 @@ const hrSchema = new mongoose.Schema({
 
 
 
-hrSchema.statics.saveHr=hrServices.saveHr
+// hrSchema.statics.saveHr=hrServices.saveHr
 
-hrSchema.statics.existUser=hrServices.existUser
+// hrSchema.statics.existUser=hrServices.existUser
 
 
 
-hrSchema.statics.getProfile=hrServices.getProfile
+// hrSchema.statics.getProfile=hrServices.getProfile
 
 
 

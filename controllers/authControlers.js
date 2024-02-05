@@ -1,10 +1,11 @@
-const managementModel=require('../schemas/managementModel')
+
 const Joi=require('joi');
 const common=require("../helpers/common")
 const ApiResponse=require('../utils/ApiResponse')
-const hrModel=require('../schemas/hrModel')
-const employerModel=require('../schemas/employerModel')
-const logModel=require('../schemas/logModel')
+const hrServices=require('../services/hrServices')
+const employerServices=require('../services/employerServices')
+const logServices=require('../services/logServices')
+const managementServices=require('../services/managementServices')
 
 
 
@@ -26,7 +27,7 @@ exports.managementLogin=async (req,res)=>{
             username: data.user_name,
         }
         // delete user_data['user_name'];
-        let response = await managementModel.getProfile(where_cls)
+        let response = await managementServices.getProfile(where_cls)
         // console.log(response,'res')
         if (!response) {
             return ApiResponse.entityNotAvailable(res,"User not Exists please SignUp first")
@@ -49,7 +50,7 @@ exports.managementLogin=async (req,res)=>{
        return ApiResponse.sendDataResponse(res,token,"successfully loggedin")
 
     } catch (error) {
-        await logModel.Insert(req.body, error);
+        await logServices.Insert(req.body, error);
         // insert the log in the database table name log if anything worng in this api
         return ApiResponse.serverIssueResponse(res, error);
         // default response if any try catch error
@@ -80,7 +81,7 @@ exports.hrLogin=async (req,res)=>{
             username: data.user_name,
         }
         // delete user_data['user_name'];
-        let response = await hrModel.getProfile(where_cls)
+        let response = await hrServices.getProfile(where_cls)
         // console.log(response,'res')
         if (!response) {
             return ApiResponse.entityNotAvailable(res,"User not Exists please SignUp first")
@@ -105,7 +106,7 @@ exports.hrLogin=async (req,res)=>{
 
     } catch (error) {
         console.log(error)
-        await logModel.Insert(req.body, error);
+        await logServices.Insert(req.body, error);
         // insert the log in the database table name log if anything worng in this api
         return ApiResponse.serverIssueResponse(res, error);
 
@@ -132,7 +133,7 @@ exports.employerLogin=async (req,res)=>{
             username: data.user_name,
         }
         // delete user_data['user_name'];
-        let response = await employerModel.getProfile(where_cls)
+        let response = await employerServices.getProfile(where_cls)
         // console.log(response,'res')
         if (!response) {
             return ApiResponse.entityNotAvailable(res,"User not Exists please SignUp first")
@@ -155,7 +156,7 @@ exports.employerLogin=async (req,res)=>{
        return ApiResponse.sendDataResponse(res,token,"successfully loggedin")
 
     } catch (error) {
-        await logModel.Insert(req.body, error);
+        await logServices.Insert(req.body, error);
         // insert the log in the database table name log if anything worng in this api
         return await common.error(res); // default response if any try catch error
     }

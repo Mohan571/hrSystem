@@ -1,8 +1,14 @@
-const candidateModel=require('../schemas/candidateModel')
+
 const Joi=require('joi')
-const logModel=require('../schemas/logModel')
 const ApiResponse=require('../utils/ApiResponse')
 const common=require('../helpers/common')
+
+const hrServices=require('../services/hrServices')
+const employerServices=require('../services/employerServices')
+const logServices=require('../services/logServices')
+const managementServices=require('../services/managementServices')
+const candidateServices=require('../services/candidateServices')
+
 
 exports.saveCandidate= async (req,res)=>{
     try{
@@ -26,7 +32,7 @@ exports.saveCandidate= async (req,res)=>{
         const data=req.body
 
 
-        const existingCandidate = await candidateModel.existUser(data.email);
+        const existingCandidate = await candidateServices.existUser(data.email);
 
         if(existingCandidate)
         {
@@ -35,19 +41,20 @@ exports.saveCandidate= async (req,res)=>{
 
 
         const candidateData={
-            // candidateId:data.candidateId,
            fullName:data.firstName+data.lastName,
             mobileNumber:data.mobileNumber,
             dob:data.dob,
-
             email:data.email,
             projects:data.projects,
             graduation:data.graduation,
             postGraduation:data.postGraduation,
             certifications:data.certifications,
             technicalSkills:data.technicalSkills,
-            currentLocation:data.currentLocation,
+            currentCity:data.currentCity,
+            currentState:data.currentState,
+            currentCountry:data.currentCountry,
             preferredLocation:data.preferredLocation,
+            currency:data.currency,
             currentCTC:data.currentCTC,
             expectedCTC:data.expectedCTC,
             noticePeriod:data.noticePeriod,
@@ -81,7 +88,7 @@ exports.saveCandidate= async (req,res)=>{
           }
 
 
-        const savedData= await candidateModel.saveCandidate(candidateData);
+        const savedData= await candidateServices.saveCandidate(candidateData);
        
 
         return ApiResponse.saveResponse(res,savedData);
@@ -90,7 +97,7 @@ exports.saveCandidate= async (req,res)=>{
     catch(error)
     {
         console.log(error)
-        await logModel.Insert({ data: req.body, stack: error.stack }, error);
+        await logServices.Insert({ data: req.body, stack: error.stack }, error);
         return ApiResponse.serverIssueResponse(res, error);
     }
 }
@@ -102,7 +109,7 @@ exports.saveCandidate= async (req,res)=>{
 exports.getAllCandidates=async (req,res)=>{
     try{
 
-        const candidates= await candidateModel.getAllCandidates();
+        const candidates= await candidateServices.getAllCandidates();
        
 
         return ApiResponse.sendDataResponse(res,candidates);
@@ -111,7 +118,7 @@ exports.getAllCandidates=async (req,res)=>{
     catch(error)
     {
         console.log(error)
-        await logModel.Insert({ data: req.body, stack: error.stack }, error);
+        await logServices.Insert({ data: req.body, stack: error.stack }, error);
         return ApiResponse.serverIssueResponse(res, error);
     }
 }
@@ -127,7 +134,7 @@ exports.getCandidateById=async (req,res)=>{
 
         const where_cls={candidateId:candidateId}
 
-        const post= await candidateModel.getCandidateById(where_cls);
+        const post= await candidateServices.getCandidateById(where_cls);
        
         
 
@@ -137,7 +144,7 @@ exports.getCandidateById=async (req,res)=>{
     catch(error)
     {
         console.log(error)
-        await logModel.Insert({ data: req.body, stack: error.stack }, error);
+        await logServices.Insert({ data: req.body, stack: error.stack }, error);
         return ApiResponse.serverIssueResponse(res, error);
     }
 }
@@ -154,7 +161,7 @@ exports.updateCandidate=async (req,res)=>{
         const candidateId=req.params.candidateId
 
 
-        const post= await candidateModel.updateCandidate(candidateId,updatedData);
+        const post= await candidateServices.updateCandidate(candidateId,updatedData);
        
         
 
@@ -164,7 +171,7 @@ exports.updateCandidate=async (req,res)=>{
     catch(error)
     {
         console.log(error)
-        await logModel.Insert({ data: req.body, stack: error.stack }, error);
+        await logServices.Insert({ data: req.body, stack: error.stack }, error);
         return ApiResponse.serverIssueResponse(res, error);
     }
 }
@@ -178,7 +185,7 @@ exports.deleteCandidate=async (req,res)=>{
        
         const candidateId=req.params.candidateId
 
-        const candidate= await candidateModel.deleteCandidate(candidateId);
+        const candidate= await candidateServices.deleteCandidate(candidateId);
 
         return ApiResponse.deleteResponse(res,candidate);
 
@@ -186,7 +193,7 @@ exports.deleteCandidate=async (req,res)=>{
     catch(error)
     {
         console.log(error)
-        await logModel.Insert({ data: req.body, stack: error.stack }, error);
+        await logServices.Insert({ data: req.body, stack: error.stack }, error);
         return ApiResponse.serverIssueResponse(res, error);
     }
 }

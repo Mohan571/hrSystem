@@ -1,11 +1,13 @@
-const logModel=require('../schemas/logModel')
+// const logModel=require('../schemas/logModel')
+const logServices=require('./logServices')
 
 const Messages=require('../utils/messages')
+const jobPostingModel=require('../schemas/jobPostingModel')
 
 exports.saveJobPost=async function(data){
     try{
         
-      const newJobPost=new this(data)
+      const newJobPost=new jobPostingModel(data)
           
       const result=await newJobPost.save()
   
@@ -15,7 +17,7 @@ exports.saveJobPost=async function(data){
     catch(error)
     {
       console.log(error);
-      await logModel.Insert({ data, stack: error.stack }, error);
+      await logServices.Insert({ data, stack: error.stack }, error);
       throw new Error(Messages.UnableToSaveEntity);
     }
 
@@ -28,7 +30,7 @@ exports.getAllJobPostings=async function(){
       
   
         
-    const result=await this.find()
+    const result=await jobPostingModel.find()
 
     return result;
 
@@ -36,7 +38,7 @@ exports.getAllJobPostings=async function(){
   catch(error)
   {
     console.log(error);
-    await logModel.Insert({ data, stack: error.stack }, error);
+    await logServices.Insert({ data, stack: error.stack }, error);
     throw new Error(Messages.UnableToGetEntity);
   }
 
@@ -48,7 +50,7 @@ exports.getJobPostById=async function(where_cls){
       
     
         
-    const result=await this.findOne(where_cls)
+    const result=await jobPostingModel.findOne(where_cls)
 
     return result;
 
@@ -56,7 +58,7 @@ exports.getJobPostById=async function(where_cls){
   catch(error)
   {
     console.log(error);
-    await logModel.Insert({ data, stack: error.stack }, error);
+    await logServices.Insert({ data, stack: error.stack }, error);
     throw new Error(Messages.UnableToGetEntityById);
   }
 
@@ -67,7 +69,7 @@ exports.getJobPostById=async function(where_cls){
 
 exports.updateJobPost = async function (jobPostId, updateData) {
   try {
-      const result = await this.findOneAndUpdate(
+      const result = await jobPostingModel.findOneAndUpdate(
           {jobPostingId:jobPostId},
           updateData,
           { new: true, runValidators: true }
@@ -80,7 +82,7 @@ exports.updateJobPost = async function (jobPostId, updateData) {
       return result;
   } catch (error) {
       console.error(error);
-      await logModel.Insert({ data: { jobPostId, updateData }, stack: error.stack }, error);
+      await logServices.Insert({ data: { jobPostId, updateData }, stack: error.stack }, error);
       throw new Error(Messages.UnableToUpdateEntity);
   }
 };
@@ -89,7 +91,7 @@ exports.updateJobPost = async function (jobPostId, updateData) {
 
 exports.deleteJobPost = async function (jobPostId) {
   try {
-      const result = await this.findOneAndUpdate(
+      const result = await jobPostingModel.findOneAndUpdate(
           {jobPostingId:jobPostId},
           {isDeleted:1},
           { new: true, runValidators: true }
@@ -102,7 +104,7 @@ exports.deleteJobPost = async function (jobPostId) {
       return result;
   } catch (error) {
       console.error(error);
-      await logModel.Insert({ data: { jobPostId, updateData }, stack: error.stack }, error);
+      await logServices.Insert({ data: { jobPostId, updateData }, stack: error.stack }, error);
       throw new Error(Messages.UnableToDeleteEntity);
   }
 };

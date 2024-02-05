@@ -1,6 +1,7 @@
 
 const common=require('../helpers/common')
 
+const logModel=require('../schemas/logModel')
 
 exports.Insert = async function (input, error) {
     try {
@@ -16,7 +17,7 @@ exports.Insert = async function (input, error) {
         };
         // console.log("Data to be inserted:", data);
 
-        const newRecord = new this(data);
+        const newRecord = new logModel(data);
         // console.log("New Record instance created:", newRecord);
 
         const savedRecord = await newRecord.save();

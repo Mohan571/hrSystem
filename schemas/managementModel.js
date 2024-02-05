@@ -64,11 +64,11 @@ const managementSchema = new mongoose.Schema({
 });
 
 
-managementSchema.statics.saveManagement=managementServices.saveManagement
+// managementSchema.statics.saveManagement=managementServices.saveManagement
 
-managementSchema.statics.existUser=managementServices.existUser
+// managementSchema.statics.existUser=managementServices.existUser
 
-managementSchema.statics.getProfile=managementServices.getProfile
+// managementSchema.statics.getProfile=managementServices.getProfile
 
 
 

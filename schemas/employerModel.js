@@ -64,12 +64,12 @@ const employerSchema = new mongoose.Schema({
 
 
 
-employerSchema.statics.saveEmployer=employerServices.saveEmployer
+// employerSchema.statics.saveEmployer=employerServices.saveEmployer
 
-employerSchema.statics.existUser=employerServices.existUser
+// employerSchema.statics.existUser=employerServices.existUser
 
 
-employerSchema.statics.getProfile=employerServices.getProfile
+// employerSchema.statics.getProfile=employerServices.getProfile
 
 
 const Employer = mongoose.model('Employer', employerSchema);

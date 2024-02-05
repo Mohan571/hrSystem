@@ -1,13 +1,13 @@
-const managementModel=require('../schemas/managementModel')
-const Joi=require('joi');
-const logModel=require('../schemas/logModel');
-const hrModel=require('../schemas/hrModel')
-const employerModel=require('../schemas/employerModel')
-// const hrModel=require('../schemas/HR')
 
+const Joi=require('joi');
 const common=require("../helpers/common")
 const ApiResponse=require('../utils/ApiResponse')
 
+const hrServices=require('../services/hrServices')
+const employerServices=require('../services/employerServices')
+const logServices=require('../services/logServices')
+const managementServices=require('../services/managementServices')
+const candidateServices=require('../services/candidateServices')
 
 
 
@@ -43,7 +43,7 @@ exports.createEmployerLogin= async (req,res)=>{
 
         // data.password=en_p;
 
-        const existingEmployer = await employerModel.existUser(data.username);
+        const existingEmployer = await employerServices.existUser(data.username);
         if(existingEmployer)
         {
             return ApiResponse.entityAlreadyExists(res, 'Username already exists');
@@ -76,7 +76,7 @@ exports.createEmployerLogin= async (req,res)=>{
         
 
 
-        const savedData= await employerModel.saveEmployer(employerData);
+        const savedData= await employerServices.saveEmployer(employerData);
        
 
         return ApiResponse.saveResponse(res,savedData);
@@ -85,7 +85,7 @@ exports.createEmployerLogin= async (req,res)=>{
     catch(error)
     {
         console.log(error)
-        await logModel.Insert({ data: req.body, stack: error.stack }, error);
+        await logServices.Insert({ data: req.body, stack: error.stack }, error);
         return ApiResponse.serverIssueResponse(res, error);
     }
 }
