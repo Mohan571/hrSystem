@@ -109,7 +109,9 @@ exports.saveCandidate= async (req,res)=>{
 exports.getAllCandidates=async (req,res)=>{
     try{
 
-        const candidates= await candidateServices.getAllCandidates();
+        const page=req.query.page;
+        const limit=req.query.limit;
+        const candidates= await candidateServices.getAllCandidates(page,limit);
        
 
         return ApiResponse.sendDataResponse(res,candidates);

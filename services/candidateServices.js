@@ -45,12 +45,14 @@ exports.saveCandidate=async function(data){
   
   
 
-exports.getAllCandidates=async function(){
+exports.getAllCandidates=async function(page,limit){
   try{
       
-  
+    const skip=(page-1)*limit;
+
+
         
-    const result=await candidateModel.find()
+    const result=await candidateModel.find().skip(skip).limit(limit)
 
     return result;
 

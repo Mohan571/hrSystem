@@ -25,12 +25,13 @@ exports.saveJobPost=async function(data){
   }
 
 
-exports.getAllJobPostings=async function(){
+exports.getAllJobPostings=async function(page,limit){
   try{
       
-  
+    const skip=(page-1)*limit;
+    
         
-    const result=await jobPostingModel.find()
+    const result=await jobPostingModel.find().skip(skip).limit(limit)
 
     return result;
 
